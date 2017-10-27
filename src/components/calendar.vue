@@ -1,7 +1,7 @@
 <template>
   <div id="calendar">
     <div class="calendar-head">
-      <h1 class="head-month-title">{{monthType[month]}}</h1>
+      <h1 class="head-month-title">{{monthTypeZh[month]}}</h1>
       <h2 class="head-year-title">{{year}}</h2>
       <div class="head-tool-container">
       <div class="head-tool">
@@ -11,7 +11,7 @@
       </div>
     </div>
      <div class="calendar-week">
-      <div class="week-title" v-for="item in weekTypeEn">
+      <div class="week-title" v-for="item in weekTypeZh">
         {{item}}
       </div>
     </div>
@@ -32,7 +32,7 @@ export default {
     return {
       weekTypeZh: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
       weekTypeEn: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      monthType: [
+      monthTypeEn: [
         "January",
         "February",
         "March",
@@ -46,6 +46,20 @@ export default {
         "November",
         "December"
       ],
+      monthTypeZh: [
+        "一月",
+        "二月",
+        "三月",
+        "四月",
+        "五月",
+        "六月",
+        "七月",
+        "八月",
+        "九月",
+        "十月",
+        "十一月",
+        "十二月"
+      ],
       year: new Date().getFullYear(),
       month: new Date().getMonth(),
       day: new Date().getDay(),
@@ -53,20 +67,23 @@ export default {
     };
   },
   created(){
-    this.dates = this.get(2017, 10)
+    this.dates = this.get(this.year, this.month + 1)
   },
-  // computed: {
-  //   dates() {
-  //     return this.get(2017, 10);
-  //   }
-  // },
   methods: {
     prev(){
       this.month -= 1
+      if(this.month == -1) {
+        this.year -= 1
+        this.month = 11
+      }
       this.dates = this.get(this.year, this.month + 1)
     },
     next(){
       this.month += 1
+      if(this.month == 12) {
+        this.year += 1
+        this.month = 0
+      }
       this.dates = this.get(this.year, this.month + 1)
     },
     transform(arr) {

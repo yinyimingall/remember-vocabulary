@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import New from '@/views/new'
 import About from '@/views/about'
 import Home from '@/views/home'
 Vue.use(Router)
@@ -11,13 +11,17 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
-      children: [
-        {
+      
+    },
+    {
           path: '/about',
           name: 'About',
           component: About
-        }
-      ]
+    },
+    {
+      path: '/new',
+      name: 'New',
+      component: New
     }
   ]
 })
