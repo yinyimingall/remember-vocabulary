@@ -1,10 +1,17 @@
 <template>
   <div id="calendar">
     <div class="calendar-head">
-
+      <h1 class="head-month-title">{{monthType[month]}}</h1>
+      <h2 class="head-year-title">{{year}}</h2>
+      <div class="head-tool-container">
+      <div class="head-tool">
+        <button class="btn btn-circle" @click="prev"><</button>
+        <button class="btn btn-circle" @click="next">></button>
+      </div>
+      </div>
     </div>
      <div class="calendar-week">
-      <div class="week-title" v-for="item in weeks">
+      <div class="week-title" v-for="item in weekTypeEn">
         {{item}}
       </div>
     </div>
@@ -23,24 +30,51 @@ export default {
   name: "calendar",
   data() {
     return {
-      weeks: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+      weekTypeZh: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+      weekTypeEn: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      monthType: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
       year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1,
-      day: new Date().getDay()
+      month: new Date().getMonth(),
+      day: new Date().getDay(),
+      dates: []
     };
   },
-  computed: {
-    dates() {
-      return this.get(2017, 10);
-    }
+  created(){
+    this.dates = this.get(2017, 10)
   },
+  // computed: {
+  //   dates() {
+  //     return this.get(2017, 10);
+  //   }
+  // },
   methods: {
+    prev(){
+      this.month -= 1
+      this.dates = this.get(this.year, this.month + 1)
+    },
+    next(){
+      this.month += 1
+      this.dates = this.get(this.year, this.month + 1)
+    },
     transform(arr) {
       console.log(arr);
       let target = [];
       for (let j = 0; j < 42; j++) {
         if (j % 7 == 0) {
-          target.push(arr.slice(j, j+7));
+          target.push(arr.slice(j, j + 7));
         }
       }
       console.log(target);
@@ -83,28 +117,73 @@ export default {
 };
 </script>
 <style>
+/* 通用 */
+.btn {
+  border: none;
+  outline: 0;
+}
+.btn:hover {
+  cursor: pointer;
+}
+
+/* 日历头部 */
 .calendar-head {
   width: 100%;
   height: 60px;
-  /* border: 1px solid #454; */
+  display: flex;
+  justify-content: space-between;
+}
+.head-month-title {
+  /* margin: 0; */
+  width: 180px;
+  font-size: 36px;
+  color: #adabaa;
+  align-self: center;
+  margin: 0;
+}
+.head-year-title {
+  margin: 0;
+  color: #adabaa;
+  align-self: center;
+}
+.head-tool-container {
+  width: 180px;
+  display: flex;
+  justify-content: flex-end;
+}
+.head-tool {
+  display: flex;
+  justify-content: space-between;
+  width: 90px;
+}
+.btn-circle {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  color: #fff;
+  background-color: #ffcc74;
+  align-self: flex-end;
 }
 
+/* 星期标题 */
 .calendar-week {
   width: 100%;
   height: 60px;
   /* border: 1px solid #454; */
-
+  color: #adabaa;
+  font-weight: 600;
   display: flex;
   justify-content: space-around;
 }
 .week-title {
   align-self: center;
+  width: 14.28571428571429%;
+  text-align: center;
 }
 
+/* 日历主体 */
 .calendar-date {
   width: 100%;
-  height: 340px;
-  /* border: 1px solid #454; */
   display: flex;
   flex-wrap: wrap;
 }
@@ -113,13 +192,13 @@ export default {
   margin: 0;
   border-collapse: collapse;
   width: 100%;
-  border: 1px solid #777;
+  /* border: 1px solid #777; */
 }
 .date-tr {
   height: 60px;
 }
 .date-box {
-  border: 1px solid #777;
+  border: 1px solid #d3d0cf;
   width: 14.28571428571429%;
   word-break: break-all;
 }
