@@ -14,12 +14,8 @@
             </li>
           </router-link>
 
-          <router-link to="">
+          <router-link to="/all">
             <li>All</li>
-          </router-link>
-
-          <router-link to="/">
-            <li>calendar</li>
           </router-link>
 
           <router-link to="/about">
@@ -28,14 +24,26 @@
 
         </ul>
       </nav>
-      <div class="btn-today">
+      <div class="btn-today" @click="gotoToday">
         Today
       </div>
     </header>
 </template>
 
 <script>
-export default {};
+import bus from '@/eventBus'
+export default {
+  name: 'header',
+  date(){
+
+  },
+  methods: {
+    gotoToday(){      
+      this.$router.push('/')
+      bus.$emit('goto-today')      
+    }
+  }
+};
 </script>
 
 <style scoped>
